@@ -1,4 +1,4 @@
-![Strimzi](https://developers.redhat.com/blog/wp-content/uploads/2018/05/strimzilogo_stacked_default_450px.png | width=100)
+![Strimzi](https://developers.redhat.com/blog/wp-content/uploads/2018/05/strimzilogo_stacked_default_450px.png =250x250)
 
 # Kafka Workshop
 
