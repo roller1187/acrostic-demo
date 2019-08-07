@@ -12,17 +12,21 @@
 
 ## To install AMQ Streams:
 
-1) git clone https://github.com/roller1187/amq-examples.git
+1) Clone the openshift-workshop repository from GitHub:
+```sh
+git clone https://github.com/roller1187/kafka-workshop.git
+```
 
-2) cd ./amq-examples
+2) Change directory to inside the repository:
+```sh
+cd ./kafka-workshop
+```
 
 3) Login to OpenShift:
-
 ```sh
 oc login <cluster URL>
 ```
 4) Create a new project:
-
 ```sh 
 oc new-project kafka
 ```
@@ -33,22 +37,24 @@ oc project kafka
 ```
 
 6) Configure access for the Strimzi operator namespace:
-
 ```sh
 oc adm policy add-cluster-role-to-user strimzi-cluster-operator-namespaced --serviceaccount strimzi-cluster-operator -n kafka
-```
-```sh
+
 oc adm policy add-cluster-role-to-user strimzi-entity-operator --serviceaccount strimzi-cluster-operator -n kafka
-```
-```sh
+
 oc adm policy add-cluster-role-to-user strimzi-topic-operator --serviceaccount strimzi-cluster-operator -n kafka
 ```
 
-7) oc apply -f https://github.com/roller1187/kafka-workshop/master/install/cluster-operator/
-
+7) Deploy all the configuration for the cluster operator:
+```sh
+oc apply -f ./install/cluster-operator/
+```
 ## To configure Kafka:
 
-1) oc apply -f https://raw.githubusercontent.com/roller1187/kafka-workshop/master/setup/my-cluster.yaml
+1) Create Kafka brokers and Zookeeper instances:
+```sh
+oc apply -f ./setup/my-cluster.yaml
+```
 
 **Wait until all 5 replicas of Kafka and Zookeeper are online**
 
