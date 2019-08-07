@@ -56,6 +56,6 @@ oc apply -f ./install/cluster-operator/
 oc apply -f ./setup/my-cluster.yaml
 ```
 
-**Wait until all 5 replicas of Kafka and Zookeeper are online**
+**Wait until all 3 replicas of Kafka and Zookeeper are online**
 
 ## Enjoy!
