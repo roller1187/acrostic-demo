@@ -4,14 +4,14 @@ metadata:
  name: my-cluster
 spec:
  kafka:
-   replicas: 5
+   replicas: 3
    listeners:
      external:
        type: route
    storage:
      type: ephemeral
  zookeeper:
-   replicas: 5
+   replicas: 3
    storage:
      type: ephemeral
  entityOperator:
