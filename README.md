@@ -1,6 +1,6 @@
 ![Strimzi](https://developers.redhat.com/blog/wp-content/uploads/2018/05/strimzilogo_stacked_default_450px.png =250x250)
 
-<img src="https://camo.githubusercontent.com/..." data-canonical-src="https://gyazo.com/eb5c5741b6a9a16c692170a41a49c858.png" width="200" height="400" />
+<img src="https://camo.githubusercontent.com/..." data-canonical-src="https://developers.redhat.com/blog/wp-content/uploads/2018/05/strimzilogo_stacked_default_450px.png" width="200" height="400" />
 
 # Kafka Workshop
 
