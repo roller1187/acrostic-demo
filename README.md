@@ -61,15 +61,15 @@ oc apply -f ./setup/my-cluster.yaml
 ## Deploy workshop components:
 
 1. Deploy Kafka Acrostic consumer service:
-![kafka-consumer](https://github.com/roller1187/kafka-consumer)
+[kafka-consumer](https://github.com/roller1187/kafka-consumer)
 
 2. Deploy Kafka producer service:
-![kafka-producer](https://github.com/roller1187/kafka-producer)
+[kafka-producer](https://github.com/roller1187/kafka-producer)
 
 3. Deploy Fuse Kafka producer service:
-![fuse-kafka-producer](https://github.com/roller1187/fuse-kafka-producer)
+[fuse-kafka-producer](https://github.com/roller1187/fuse-kafka-producer)
 
 4. Deploy a Quarkus UI to see the interactions:
-![quarkus-kafka-consumer](https://github.com/roller1187/quarkus-kafka-consumer)
+[quarkus-kafka-consumer](https://github.com/roller1187/quarkus-kafka-consumer)
 
 ## Enjoy!
