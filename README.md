@@ -69,7 +69,7 @@ oc apply -f ./setup/my-cluster.yaml
 3. Deploy Fuse Kafka producer service:
 [fuse-kafka-producer](https://github.com/roller1187/fuse-kafka-producer)
 
-4. Deploy a Quarkus UI to see the interactions:
+4. Deploy a Quarkus UI to visualize the acrostic map:
 [quarkus-kafka-consumer](https://github.com/roller1187/quarkus-kafka-consumer)
 
 ## Enjoy!
