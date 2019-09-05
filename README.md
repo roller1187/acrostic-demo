@@ -28,21 +28,21 @@ oc login <cluster URL>
 ```
 4) Create a new project:
 ```sh 
-oc new-project kafka-demo
+oc new-project kafka
 ```
 
 5) Load the new project:
 ```sh
-oc project kafka-demo
+oc project kafka
 ```
 
 6) Configure access for the Strimzi operator namespace:
 ```sh
-oc adm policy add-cluster-role-to-user strimzi-cluster-operator-namespaced --serviceaccount strimzi-cluster-operator -n kafka-demo
+oc adm policy add-cluster-role-to-user strimzi-cluster-operator-namespaced --serviceaccount strimzi-cluster-operator -n kafka
 
-oc adm policy add-cluster-role-to-user strimzi-entity-operator --serviceaccount strimzi-cluster-operator -n kafka-demo
+oc adm policy add-cluster-role-to-user strimzi-entity-operator --serviceaccount strimzi-cluster-operator -n kafka
 
-oc adm policy add-cluster-role-to-user strimzi-topic-operator --serviceaccount strimzi-cluster-operator -n kafka-demo
+oc adm policy add-cluster-role-to-user strimzi-topic-operator --serviceaccount strimzi-cluster-operator -n kafka
 ```
 
 7) Deploy all the configuration for the cluster operator:
