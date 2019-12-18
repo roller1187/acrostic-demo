@@ -58,18 +58,6 @@ oc apply -f ./setup/my-cluster.yaml
 
 **Wait until all 3 replicas of Kafka and Zookeeper are online**
 
-## Creating ConfigMaps for Consumers/Producers using Kafka certificates
-
-1) Extract Kafka certificate
-```sh
-oc extract secret/my-cluster-cluster-ca-cert --keys=ca.crt --confirm=true -n kafka
-```
-
-2) Create ConfigMap from Kafka certificate
-```sh
-oc create configmap kafka-cert --from-file=./ca.crt -n kafka
-```
-
 ## Deploy workshop components:
 
 1. Deploy Kafka Acrostic consumer service:
