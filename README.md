@@ -1,4 +1,12 @@
-<img src="https://developers.redhat.com/blog/wp-content/uploads/2018/05/strimzilogo_stacked_default_450px.png" data-canonical-src="https://developers.redhat.com/blog/wp-content/uploads/2018/05/strimzilogo_stacked_default_450px.png" width="120" /> <img src="https://developers.redhat.com/blog/wp-content/uploads/2018/10/Untitled-drawing-4.png" data-canonical-src="https://developers.redhat.com/blog/wp-content/uploads/2018/10/Untitled-drawing-4.png" width="300" /> <img src="https://openjdk.java.net/images/openjdk.png" data-canonical-src="https://openjdk.java.net/images/openjdk.png" width="180" /> <img src="https://camel.apache.org/_/img/logo-camel-medium.png" data-canonical-src="https://camel.apache.org/_/img/logo-camel-medium.png" width="180" /> <img src="https://quarkus.io/assets/images/quarkus_logo_horizontal_rgb_600px_reverse.png" data-canonical-src="https://quarkus.io/assets/images/quarkus_logo_horizontal_rgb_600px_reverse.png" width="500" /> <img src="https://wiki.postgresql.org/images/3/30/PostgreSQL_logo.3colors.120x120.png" data-canonical-src="https://wiki.postgresql.org/images/3/30/PostgreSQL_logo.3colors.120x120.png" width="80" />
+<p style="text-align: center;">
+<img src="https://developers.redhat.com/blog/wp-content/uploads/2018/10/Untitled-drawing-4.png" data-canonical-src="https://developers.redhat.com/blog/wp-content/uploads/2018/10/Untitled-drawing-4.png" width="300" />
+<img src="https://developers.redhat.com/blog/wp-content/uploads/2018/05/strimzilogo_stacked_default_450px.png" data-canonical-src="https://developers.redhat.com/blog/wp-content/uploads/2018/05/strimzilogo_stacked_default_450px.png" width="120" /> 
+<br />
+<img src="https://openjdk.java.net/images/openjdk.png" data-canonical-src="https://openjdk.java.net/images/openjdk.png" width="180" />
+<img src="https://camel.apache.org/_/img/logo-camel-medium.png" data-canonical-src="https://camel.apache.org/_/img/logo-camel-medium.png" width="180" />
+<img src="https://wiki.postgresql.org/images/3/30/PostgreSQL_logo.3colors.120x120.png" data-canonical-src="https://wiki.postgresql.org/images/3/30/PostgreSQL_logo.3colors.120x120.png" width="80" />
+<img src="https://quarkus.io/assets/images/quarkus_logo_horizontal_rgb_600px_reverse.png" data-canonical-src="https://quarkus.io/assets/images/quarkus_logo_horizontal_rgb_600px_reverse.png" width="500" />
+</p>
 
 # Acrostic Demo
 
