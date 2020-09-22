@@ -10,10 +10,20 @@
  
 **Note:** The following instructions deploy AMQ Streams leveraging the Red Hat AMQ Streams operator. Additionally, it deploys a Java application that leverages Kafka with a built-in consumer and producer. It is capable of sending messages to AMQ Streams using REST endpoints
 
+## Login to OCP via oc client (Download from the Assets section located [here](https://github.com/openshift/okd/releases/tag/4.4.0-0.okd-2020-03-28-092308))
+```sh
+oc login <cluster_url>
+```
+
 # Automated install
 
-## Download and run the following script:
 
+1. Download and run the "run-acrostic.sh" script:
+```sh
+. ./run-acrostic.sh
+```
+
+**DONE! Now, you can access the Acrostic Quarkus UI by clicking the route for the "quarkus-kafka-consumer" microservice.**
 
 # Manual install
 
@@ -200,6 +210,8 @@ oc expose svc/quarkus-kafka-consumer -n acrostic-demo
 ``` 
 <sub>Source repo: [quarkus-kafka-consumer](https://github.com/roller1187/quarkus-kafka-consumer)
 </sub>
+
+**DONE! Now, you can access the Acrostic Quarkus UI by clicking the route for the "quarkus-kafka-consumer" microservice.**
 
 ## Enjoy!
 
