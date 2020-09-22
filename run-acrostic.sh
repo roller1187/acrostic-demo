@@ -1,77 +1,33 @@
-<img src="https://developers.redhat.com/blog/wp-content/uploads/2018/05/strimzilogo_stacked_default_450px.png" data-canonical-src="https://developers.redhat.com/blog/wp-content/uploads/2018/05/strimzilogo_stacked_default_450px.png" width="120" height="100" /> <img src="https://developers.redhat.com/blog/wp-content/uploads/2018/10/Untitled-drawing-4.png" data-canonical-src="https://developers.redhat.com/blog/wp-content/uploads/2018/10/Untitled-drawing-4.png" width="300" height="140" />
+#!/bin/bash
 
-# Kafka Workshop
+# Install Kafka
 
-### The purpose of this workshop is to utilize the components within the Red Hat Integration portfolio to integrate a traditional application with more applications within OpenShift through kafka. 
-
----
-
-## The instructions below should be completed by the instructor to demonstrate the deployment of Kafka as a centralized service
- 
-**Note:** The following instructions deploy AMQ Streams leveraging the Red Hat AMQ Streams operator. Additionally, it deploys a Java application that leverages Kafka with a built-in consumer and producer. It is capable of sending messages to AMQ Streams using REST endpoints
-
-# Automated install
-
-## Download and run the following script:
-
-
-# Manual install
-
-## Install and deploy AMQ Streams:
-
-1. Create new project called "kafka-demo"
-```sh
-oc new-project kafka-demo
-```
-
-2. Create AMQ Streams Operator Subscription:
-```sh
 echo '{"apiVersion":"operators.coreos.com/v1alpha1","kind":"Subscription","metadata":{"name":"amq-streams","namespace":"openshift-operators"},"spec":{"channel":"stable","installPlanApproval":"Automatic","name":"amq-streams","source":"redhat-operators","sourceNamespace":"openshift-marketplace","startingCSV":"amqstreams.v1.5.3"}}' | \
 oc apply -f -
-```
-**Wait about 30 seconds for the Operator to be installed in the openshift-operators namespace, and then:**
 
-3. Deploy Kafka cluster:
-```sh
+echo Waiting 30 secs for Kafka to be installed...
+sleep 30
+
+oc new-project kafka-demo
+
 echo '{"apiVersion":"kafka.strimzi.io/v1beta1","kind":"Kafka","metadata":{"name":"my-cluster","namespace":"kafka-demo"},"spec":{"kafka":{"config":{"offsets.topic.replication.factor":3,"transaction.state.log.replication.factor":3,"transaction.state.log.min.isr":2,"log.message.format.version":"2.5"},"version":"2.5.0","storage":{"type":"ephemeral"},"replicas":3,"listeners":{"plain":{"authentiation":{"type":"scram-sha-512"}},"tls":{"authentiation":{"type":"tls"}}}},"entityOperator":{"topicOperator":{"reconciliationIntervalSeconds":90},"userOperator":{"reconciliationIntervalSeconds":120}},"zookeeper":{"storage":{"type":"ephemeral"},"replicas":3}}}' | \
 oc apply -f -
-```
 
-**Wait about 60 seconds for the resources to be created in the kafka-demo project, and then:**
+echo Waiting 60 secs for Kafka to be deployed...
+sleep 60
 
-## Deploy demo components:
-
-1. Extract ca.crt from the Kafka cluster install for TLS configuration:
-```sh 
 oc extract secret/my-cluster-cluster-ca-cert --keys=ca.crt --confirm=true -n kafka-demo
-```
 
-2. Create new project called "acrostic-demo":
-```sh
 oc new-project acrostic-demo
-```
 
-3. Create ConfigMap from the local ca.crt file created on step 4:
-```sh
 oc create configmap kafka-cert --from-file=./ca.crt -n acrostic-demo
-```
 
-### Deploy the JEE static XML app on Jboss EAP:
-1. Deploy the application:
-```sh
 oc new-app jboss-eap72-openshift:latest~https://github.com/roller1187/random-message-generator.git \
     -l app.openshift.io/runtime=eap \
     -n acrostic-demo
-```
 
-2. Create ingress route:
-```sh
 oc expose svc/random-message-generator -n acrostic-demo --path /xml
-```
 
-### Deploy the PostgreSQL database:
-1. Deploy the application:
-```sh
 oc new-app --name postgresql \
     -e POSTGRESQL_USER=openshift \
     -e POSTGRESQL_PASSWORD=openshift \
@@ -79,11 +35,7 @@ oc new-app --name postgresql \
     registry.access.redhat.com/rhscl/postgresql-10-rhel7 \
     -l app.openshift.io/runtime=postgresql \
     -n acrostic-demo
-```
 
-### Deploy the Kafka Consumer microservice using OpenJDK:
-1. Deploy the application:
-```sh
 oc new-app openjdk-11-rhel7:1.0~https://github.com/roller1187/kafka-consumer.git \
     --env KAFKA_BACKEND_TOPIC=my-topic \
     --env KAFKA_UI_TOPIC=ui-topic \
@@ -92,80 +44,38 @@ oc new-app openjdk-11-rhel7:1.0~https://github.com/roller1187/kafka-consumer.git
     --env POSTGRES_SERVICE_URL=postgresql.acrostic-demo.svc.cluster.local:5432/sampledb \
     -l app.openshift.io/runtime=openjdk \
     -n acrostic-demo
-```
 
-2. Create a volume mapping to auto-generate keystore from Kafka certificate
-```sh
 oc set volume dc/kafka-consumer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
-```
-<sub>Source repo: [kafka-consumer](https://github.com/roller1187/kafka-consumer)
-</sub>
 
-### Deploy the Kafka Producer microservice using OpenJDK:
-1. Deploy the application:
-```sh
 oc new-app openjdk-11-rhel7:1.0~https://github.com/roller1187/kafka-producer.git \
     --env KAFKA_BACKEND_TOPIC=my-topic \
     --env SPRING_KAFKA_BOOTSTRAP_SERVERS=my-cluster-kafka-bootstrap.kafka-demo.svc.cluster.local:9093 \
     -l app.openshift.io/runtime=openjdk \
     -n acrostic-demo
-```
 
-2. Create a volume mapping to auto-generate keystore from Kafka certificate
-```sh
 oc set volume dc/kafka-producer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
-```
 
-3. Create ingress route:
-```sh
 oc expose svc/kafka-producer -n acrostic-demo
-```
-<sub>Source repo: [kafka-producer](https://github.com/roller1187/kafka-producer)
-</sub>
 
-### Deploy the Fuse Kafka Producer microservice using OpenJDK:
-1. Deploy the application:
-```sh
 oc new-app openjdk-11-rhel7:1.0~https://github.com/roller1187/fuse-kafka-producer.git \
     --env KAFKA_BACKEND_TOPIC=my-topic \
     --env SPRING_KAFKA_BOOTSTRAP_SERVERS=my-cluster-kafka-bootstrap.kafka-demo.svc.cluster.local:9093 \
     -l app.openshift.io/runtime=camel \
     -n acrostic-demo
-```
 
-2. Create a volume mapping to auto-generate keystore from Kafka certificate
-```sh
 oc set volume dc/fuse-kafka-producer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
-```
-<sub>Source repo: [fuse-kafka-producer](https://github.com/roller1187/fuse-kafka-producer)
-</sub>
 
-### Deploy the Quarkus Kafka Consumer microservice using OpenJDK:
-
-1. Deploy the application:
-```sh
 oc new-app openjdk-11-rhel8:1.0~https://github.com/roller1187/quarkus-kafka-consumer.git \
     --env=JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0" \
     --env=KAFKA_BOOTSTRAP_SERVERS=my-cluster-kafka-bootstrap.kafka-demo.svc.cluster.local:9093 \
     -l app.openshift.io/runtime=quarkus \
     -n acrostic-demo
-```
 
-2. Create volume mappings to auto-generate keystore from Kafka certificate
-```sh
 oc set volume --name kafka-cert dc/quarkus-kafka-consumer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
-```
-```sh
 oc set volume --name keystore dc/quarkus-kafka-consumer --add --type=emptyDir --mount-path=/tmp -n acrostic-demo
-```
 
-3. Export Deployment Config into local file quarkus-dc.yml:
-```sh
 oc get dc/quarkus-kafka-consumer --output=yaml > ./quarkus-dc.yml
-```
 
-4. Edit Deployment Config to add initContainer for keystore creation (sed dependency):
-```sh
 sed -i '' 's/^      containers:/      initContainers: \
         - name: init-createkeystore \
           image: '\''registry.redhat.io\/openjdk\/openjdk-11-rhel7:1.0'\'' \
@@ -187,20 +97,10 @@ sed -i '' 's/^      containers:/      initContainers: \
             - name: keystore \
               mountPath: \/tmp \
 &/g' quarkus-dc.yml
-```
 
-5. Apply Deployment Config changes:
-```sh
 oc apply -f ./quarkus-dc.yml
-```
 
-6. Create ingress route:
-```sh
 oc expose svc/quarkus-kafka-consumer -n acrostic-demo
-``` 
-<sub>Source repo: [quarkus-kafka-consumer](https://github.com/roller1187/quarkus-kafka-consumer)
-</sub>
 
-## Enjoy!
-
-Please create any issues against this project and feel free to contribute!
+rm -f ./quarkus-dc.yml
+rm -f ./ca.crt
