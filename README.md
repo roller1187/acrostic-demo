@@ -1,4 +1,4 @@
-<img src="https://developers.redhat.com/blog/wp-content/uploads/2018/05/strimzilogo_stacked_default_450px.png" data-canonical-src="https://developers.redhat.com/blog/wp-content/uploads/2018/05/strimzilogo_stacked_default_450px.png" width="120" height="100" /> <img src="https://developers.redhat.com/blog/wp-content/uploads/2018/10/Untitled-drawing-4.png" data-canonical-src="https://developers.redhat.com/blog/wp-content/uploads/2018/10/Untitled-drawing-4.png" width="300" height="140" />
+<img src="https://developers.redhat.com/blog/wp-content/uploads/2018/05/strimzilogo_stacked_default_450px.png" data-canonical-src="https://developers.redhat.com/blog/wp-content/uploads/2018/05/strimzilogo_stacked_default_450px.png" width="120" /> <img src="https://developers.redhat.com/blog/wp-content/uploads/2018/10/Untitled-drawing-4.png" data-canonical-src="https://developers.redhat.com/blog/wp-content/uploads/2018/10/Untitled-drawing-4.png" width="300" /> <img src="https://openjdk.java.net/images/openjdk.png" data-canonical-src="https://openjdk.java.net/images/openjdk.png" width="180" /> <img src="https://camel.apache.org/_/img/logo-camel-medium.png" data-canonical-src="https://camel.apache.org/_/img/logo-camel-medium.png" width="180" /> <img src="https://quarkus.io/assets/images/quarkus_logo_horizontal_rgb_600px_reverse.png" data-canonical-src="https://quarkus.io/assets/images/quarkus_logo_horizontal_rgb_600px_reverse.png" width="500" /> <img src="https://wiki.postgresql.org/images/3/30/PostgreSQL_logo.3colors.120x120.png" data-canonical-src="https://wiki.postgresql.org/images/3/30/PostgreSQL_logo.3colors.120x120.png" width="80" />
 
 # Kafka Workshop
 
@@ -78,6 +78,8 @@ oc new-app jboss-eap72-openshift:latest~https://github.com/roller1187/random-mes
 ```sh
 oc expose svc/random-message-generator -n acrostic-demo --path /xml
 ```
+<sub>Source repo: [random-message-generator](https://github.com/roller1187/random-message-generator)
+</sub>
 
 ### Deploy the PostgreSQL database:
 1. Deploy the application:
@@ -215,4 +217,31 @@ oc expose svc/quarkus-kafka-consumer -n acrostic-demo
 
 ## Enjoy!
 
+---
+# Other resources
+
+## For PostgreSQL port forwarding from OCP cluster to localhost:80 In order to access DB using pgAdmin
+1. From your terminal logged into OCP, execute the following command:
+```sh
+sudo oc port-forward $(oc get pods -n acrostic-demo | grep postgresql | grep Running | awk '{print $1}') 80:5432
+```
+
+2. Run pgAdmin from your local server and connect to the database running on OCP using server address "localhost" on port 80. Database username/password: "openshift/openshift"
+
+## To remove this demo and all of its components, run:
+```sh
+oc delete all --selector app=kafka-consumer -n acrostic-demo
+oc delete all --selector app=kafka-producer -n acrostic-demo
+oc delete all --selector app=fuse-kafka-producer -n acrostic-demo
+oc delete all --selector app=quarkus-kafka-consumer -n acrostic-demo
+oc delete all --selector app=random-message-generator -n acrostic-demo
+oc delete all --selector app=postgresql -n acrostic-demo
+oc delete all --selector app.kubernetes.io/instance=my-cluster -n kafka-demo
+oc delete subscription amq-streams -n openshift-operators
+oc delete ClusterServiceVersion amqstreams.v1.5.3 -n default
+oc delete project acrostic-demo
+oc delete project kafka-demo
+```
+
+---
 Please create any issues against this project and feel free to contribute!
