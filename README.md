@@ -1,12 +1,10 @@
 <img src="https://developers.redhat.com/blog/wp-content/uploads/2018/05/strimzilogo_stacked_default_450px.png" data-canonical-src="https://developers.redhat.com/blog/wp-content/uploads/2018/05/strimzilogo_stacked_default_450px.png" width="120" /> <img src="https://developers.redhat.com/blog/wp-content/uploads/2018/10/Untitled-drawing-4.png" data-canonical-src="https://developers.redhat.com/blog/wp-content/uploads/2018/10/Untitled-drawing-4.png" width="300" /> <img src="https://openjdk.java.net/images/openjdk.png" data-canonical-src="https://openjdk.java.net/images/openjdk.png" width="180" /> <img src="https://camel.apache.org/_/img/logo-camel-medium.png" data-canonical-src="https://camel.apache.org/_/img/logo-camel-medium.png" width="180" /> <img src="https://quarkus.io/assets/images/quarkus_logo_horizontal_rgb_600px_reverse.png" data-canonical-src="https://quarkus.io/assets/images/quarkus_logo_horizontal_rgb_600px_reverse.png" width="500" /> <img src="https://wiki.postgresql.org/images/3/30/PostgreSQL_logo.3colors.120x120.png" data-canonical-src="https://wiki.postgresql.org/images/3/30/PostgreSQL_logo.3colors.120x120.png" width="80" />
 
-# Kafka Workshop
+# Acrostic Demo
 
-### The purpose of this workshop is to utilize the components within the Red Hat Integration portfolio to integrate a traditional application with more applications within OpenShift through kafka. 
+### The purpose of this demo is to utilize the components within the Red Hat Integration and Runtimes portfolio to integrate a traditional application with a microservices based architecture on OpenShift. 
 
 ---
-
-## The instructions below should be completed by the instructor to demonstrate the deployment of Kafka as a centralized service
  
 **Note:** The following instructions deploy AMQ Streams leveraging the Red Hat AMQ Streams operator. Additionally, it deploys a Java application that leverages Kafka with a built-in consumer and producer. It is capable of sending messages to AMQ Streams using REST endpoints
 
@@ -14,9 +12,8 @@
 ```sh
 oc login <cluster_url>
 ```
-
+---
 # Automated install
-
 
 1. Download and run the "run-acrostic.sh" script:
 ```sh
@@ -24,7 +21,7 @@ oc login <cluster_url>
 ```
 
 **DONE! Now, you can access the Acrostic Quarkus UI by clicking the route for the "quarkus-kafka-consumer" microservice.**
-
+---
 # Manual install
 
 ## Install and deploy AMQ Streams:
