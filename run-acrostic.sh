@@ -45,7 +45,7 @@ oc new-app openjdk-11-rhel7:1.0~https://github.com/roller1187/kafka-consumer.git
     -l app.openshift.io/runtime=openjdk \
     -n acrostic-demo
 
-oc set volume dc/kafka-consumer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
+oc set volume deployment/kafka-consumer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
 
 oc new-app openjdk-11-rhel7:1.0~https://github.com/roller1187/kafka-producer.git \
     --env KAFKA_BACKEND_TOPIC=my-topic \
@@ -53,7 +53,7 @@ oc new-app openjdk-11-rhel7:1.0~https://github.com/roller1187/kafka-producer.git
     -l app.openshift.io/runtime=openjdk \
     -n acrostic-demo
 
-oc set volume dc/kafka-producer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
+oc set volume deployment/kafka-producer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
 
 oc expose svc/kafka-producer -n acrostic-demo
 
@@ -63,7 +63,7 @@ oc new-app openjdk-11-rhel7:1.0~https://github.com/roller1187/fuse-kafka-produce
     -l app.openshift.io/runtime=camel \
     -n acrostic-demo
 
-oc set volume dc/fuse-kafka-producer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
+oc set volume deployment/fuse-kafka-producer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
 
 oc new-app openjdk-11-rhel8:1.0~https://github.com/roller1187/quarkus-kafka-consumer.git \
     --env=JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0" \
@@ -71,10 +71,10 @@ oc new-app openjdk-11-rhel8:1.0~https://github.com/roller1187/quarkus-kafka-cons
     -l app.openshift.io/runtime=quarkus \
     -n acrostic-demo
 
-oc set volume --name kafka-cert dc/quarkus-kafka-consumer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
-oc set volume --name keystore dc/quarkus-kafka-consumer --add --type=emptyDir --mount-path=/tmp -n acrostic-demo
+oc set volume --name kafka-cert deployment/quarkus-kafka-consumer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
+oc set volume --name keystore deployment/quarkus-kafka-consumer --add --type=emptyDir --mount-path=/tmp -n acrostic-demo
 
-oc get dc/quarkus-kafka-consumer --output=yaml > ./quarkus-dc.yml
+oc get deployment/quarkus-kafka-consumer --output=yaml > ./quarkus-deployment.yml
 
 sed -i '' 's/^      containers:/      initContainers: \
         - name: init-createkeystore \
@@ -96,11 +96,11 @@ sed -i '' 's/^      containers:/      initContainers: \
               mountPath: \/tmp\/certs \
             - name: keystore \
               mountPath: \/tmp \
-&/g' quarkus-dc.yml
+&/g' quarkus-deployment.yml
 
-oc apply -f ./quarkus-dc.yml
+oc apply -f ./quarkus-deployment.yml
 
 oc expose svc/quarkus-kafka-consumer -n acrostic-demo
 
-rm -f ./quarkus-dc.yml
+rm -f ./quarkus-deployment.yml
 rm -f ./ca.crt

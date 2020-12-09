@@ -113,7 +113,7 @@ oc new-app openjdk-11-rhel7:1.0~https://github.com/roller1187/kafka-consumer.git
 
 2. Create a volume mapping to auto-generate keystore from Kafka certificate
 ```sh
-oc set volume dc/kafka-consumer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
+oc set volume deployment/kafka-consumer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
 ```
 <sub>Source repo: [kafka-consumer](https://github.com/roller1187/kafka-consumer)
 </sub>
@@ -130,7 +130,7 @@ oc new-app openjdk-11-rhel7:1.0~https://github.com/roller1187/kafka-producer.git
 
 2. Create a volume mapping to auto-generate keystore from Kafka certificate
 ```sh
-oc set volume dc/kafka-producer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
+oc set volume deployment/kafka-producer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
 ```
 
 3. Create ingress route:
@@ -152,7 +152,7 @@ oc new-app openjdk-11-rhel7:1.0~https://github.com/roller1187/fuse-kafka-produce
 
 2. Create a volume mapping to auto-generate keystore from Kafka certificate
 ```sh
-oc set volume dc/fuse-kafka-producer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
+oc set volume deployment/fuse-kafka-producer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
 ```
 <sub>Source repo: [fuse-kafka-producer](https://github.com/roller1187/fuse-kafka-producer)
 </sub>
@@ -170,15 +170,15 @@ oc new-app openjdk-11-rhel8:1.0~https://github.com/roller1187/quarkus-kafka-cons
 
 2. Create volume mappings to auto-generate keystore from Kafka certificate
 ```sh
-oc set volume --name kafka-cert dc/quarkus-kafka-consumer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
+oc set volume --name kafka-cert deployment/quarkus-kafka-consumer --add --type=configmap --configmap-name=kafka-cert --mount-path=/tmp/certs -n acrostic-demo
 ```
 ```sh
-oc set volume --name keystore dc/quarkus-kafka-consumer --add --type=emptyDir --mount-path=/tmp -n acrostic-demo
+oc set volume --name keystore deployment/quarkus-kafka-consumer --add --type=emptyDir --mount-path=/tmp -n acrostic-demo
 ```
 
-3. Export Deployment Config into local file quarkus-dc.yml:
+3. Export Deployment Config into local file quarkus-deployment.yml:
 ```sh
-oc get dc/quarkus-kafka-consumer --output=yaml > ./quarkus-dc.yml
+oc get deployment/quarkus-kafka-consumer --output=yaml > ./quarkus-deployment.yml
 ```
 
 4. Edit Deployment Config to add initContainer for keystore creation (sed dependency):
@@ -203,12 +203,12 @@ sed -i '' 's/^      containers:/      initContainers: \
               mountPath: \/tmp\/certs \
             - name: keystore \
               mountPath: \/tmp \
-&/g' quarkus-dc.yml
+&/g' quarkus-deployment.yml
 ```
 
 5. Apply Deployment Config changes:
 ```sh
-oc apply -f ./quarkus-dc.yml
+oc apply -f ./quarkus-deployment.yml
 ```
 
 6. Create ingress route:
